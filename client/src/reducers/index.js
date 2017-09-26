@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import { reducer as reduxForm } from 'redux-form';
 import moviesReducer from './moviesReducer';
 import mapReducer from './mapReducer';
-import movieListReducer from './movieListReducer';
+import generalReducer from './generalReducer';
+import locationsReducer from './locationsReducer';
 
 export default combineReducers({
   movies: moviesReducer,
   map: mapReducer,
-  movieList: movieListReducer
+  general: generalReducer,
+  locations: locationsReducer
 });

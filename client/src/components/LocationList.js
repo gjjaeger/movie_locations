@@ -8,21 +8,33 @@ import React, { Component } from 'react';
 const google = window.google;
 class LocationList extends Component {
   renderContent() {
-    const bounds = this.props.movieList.bounds;
-    return _.map(this.props.movies, movie => {
-      return _.map(movie.locations, location => {
-        if (bounds) {
-          if (
-            bounds.contains({
-              lat: parseFloat(location.lat),
-              lng: parseFloat(location.lng)
-            })
-          ) {
-            return <div>{movie.title}</div>;
-          }
-        }
-      });
-    });
+    const bounds = this.props.general.bounds;
+
+    if (bounds) {
+      const filtered = _.chain(this.props.locations)
+        .filter(location => {
+          return bounds.contains({
+            lat: parseFloat(location.lat),
+            lng: parseFloat(location.lng)
+          });
+        })
+        .map(location => {
+          return location._movie;
+        })
+        .value();
+
+      function getMovieObject(movies, item) {
+        return movies[item];
+      }
+
+      return _.chain(filtered)
+        .map(_.partial(getMovieObject, this.props.movies.list))
+        .uniqBy('_id')
+        .map(({ _id, title }) => {
+          return <div key={_id}>{title}</div>;
+        })
+        .value();
+    }
   }
   render() {
     return <div>{this.renderContent.bind(this)()}</div>;

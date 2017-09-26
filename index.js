@@ -7,6 +7,7 @@ const app = express();
 
 require('./models/Movie');
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:movie-locations/movies');
 
 app.use(morgan('combined')); //logging framework used for debugging

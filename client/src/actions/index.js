@@ -1,12 +1,14 @@
 import axios from 'axios';
 import {
-  FETCH_MOVIES,
+  SET_MOVIES,
   SET_ACTIVE_MARKER,
   SHOW_INFO_WINDOW,
   SET_SELECTED_MOVIE,
   SET_LOCATION,
   SET_CENTER,
-  SET_BOUNDS
+  SET_BOUNDS,
+  SET_LOCATIONS,
+  SET_MOVIE_IDS
 } from './types';
 import { normalize, schema, Schema, arrayOf } from 'normalizr';
 import PlacesAutocomplete, {
@@ -14,39 +16,41 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 
+('use strict');
+
 export const fetchMovies = () => async dispatch => {
   const result = await axios.get('/api/movies');
-  // console.log(JSON.stringify(result.data));
-  // const location = await new schema.Entity(
-  //   'locations',
-  //   {},
-  //   {
-  //     idAttribute: '_id'
-  //   }
-  // );
-  // const movie = await new schema.Entity(
-  //   'movies',
-  //   { locations: [location] },
-  //   {
-  //     idAttribute: '_id'
-  //   }
-  // );
-  //
-  // const normalizedData1 = JSON.stringify(normalize(result.data, movie));
-  //
-  // debugger;
-  // result.data.entities.movies['59c7698d544d56b262e2187e'];
+  console.log(result.data);
+  const location = await new schema.Entity(
+    'locations',
+    {},
+    {
+      idAttribute: '_id'
+    }
+  );
+  const movie = await new schema.Entity(
+    'movies',
+    { locations: [location] },
+    {
+      idAttribute: '_id'
+    }
+  );
 
-  dispatch({ type: FETCH_MOVIES, payload: result.data });
+  const movieListSchema = [movie];
+
+  const normalizedData = normalize(result.data, movieListSchema);
+
+  dispatch({ type: SET_MOVIES, payload: normalizedData.entities.movies });
+  dispatch({ type: SET_MOVIE_IDS, payload: normalizedData.result });
+  dispatch({ type: SET_LOCATIONS, payload: normalizedData.entities.locations });
 };
 
-export const onMarkerClicks = (
-  active_marker,
-  movie_title
-) => async dispatch => {
+export const onMarkerClick = selectedMovie => async dispatch => {
   dispatch({ type: SHOW_INFO_WINDOW });
-  dispatch({ type: SET_ACTIVE_MARKER, payload: { active_marker } });
-  dispatch({ type: SET_SELECTED_MOVIE, payload: movie_title });
+  // dispatch({ type: SET_ACTIVE_MARKER, payload: { active_marker } });
+  debugger;
+  // _.filter(this.props.movies.list);
+  // dispatch({ type: SET_SELECTED_MOVIE, payload: selectedMovie });
 };
 
 export const setLocation = ({ address }) => async dispatch => {

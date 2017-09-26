@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import GoogleMap from './Map';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 const google = window.google;
 
 class Landing extends Component {
-  handleLocationFormSubmit({ address }) {
+  handleLocationFormSubmit(e) {
+    e.preventDefault();
+    const { address } = this.props;
     this.props.setLocation({ address });
+    this.props.setCenter({ address });
+  }
+
+  handleOnSelect(address, placeId) {
+    this.props.setLocation({ address });
+    this.props.setCenter({ address });
   }
 
   onLocationInputChange(address) {
     this.props.setLocation({ address });
-    this.props.setCenter({ address });
   }
   render() {
     const AutocompleteItem = ({ suggestion }) => (
@@ -29,18 +35,16 @@ class Landing extends Component {
       placeholder: 'Search Places...',
       autoFocus: true
     };
-    const options = {
-      location: new google.maps.LatLng(37.7749, 122.4194),
-      radius: 2000,
-      debounce: 1000
-    };
+
     return (
       <div>
         <form onSubmit={this.handleLocationFormSubmit.bind(this)}>
           <PlacesAutocomplete
             inputProps={inputProps}
             option={options}
+            onSelect={this.handleOnSelect.bind(this)}
             autocompleteItem={AutocompleteItem}
+            onEnterKeyDown={this.handleOnSelect.bind(this)}
           />
           <button action="submit" className="btn btn-primary">
             Continue
