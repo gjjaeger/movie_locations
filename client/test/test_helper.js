@@ -11,7 +11,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import reducers from '../src/reducers';
 
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
+global.document = jsdom.jsdom(
+  '<!doctype html><html><head><script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAUCiTUszeY7oXzJ7x_RLaF69FbjNWV4Dg&libraries=places"></head></script><body></body></html>'
+);
 global.window = global.document.defaultView;
 global.navigator = global.window.navigator;
 const $ = _$(window);

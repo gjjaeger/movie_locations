@@ -5,9 +5,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Landing from './Landing';
 
 class App extends Component {
-  // componentDidMount() {
-  //   this.props.fetchMovies();
-  // }
+  componentDidMount() {
+    this.props.fetchMovies();
+  }
   render() {
     return (
       <div>
