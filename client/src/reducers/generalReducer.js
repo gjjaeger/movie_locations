@@ -4,7 +4,8 @@ import {
   SET_ACTIVE_MARKER,
   SHOW_INFO_WINDOW,
   SET_SELECTED_MOVIE,
-  SET_SELECTED_LOCATION
+  SET_SELECTED_LOCATION,
+  SET_MAP_ERROR
 } from '../actions/types';
 
 export default function(state = {}, action) {
@@ -21,6 +22,8 @@ export default function(state = {}, action) {
       return { ...state, selectedLocation: action.payload };
     case SHOW_INFO_WINDOW:
       return { ...state, showInfoWindow: true };
+    case SET_MAP_ERROR:
+      return { ...state, mapError: action.payload };
     default:
       return state;
   }

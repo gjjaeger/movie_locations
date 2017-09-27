@@ -5,9 +5,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Landing from './Landing';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.fetchMovies();
-  }
+  // componentDidMount() {
+  //   this.props.fetchMovies();
+  // }
   render() {
     return (
       <div>
@@ -21,8 +21,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { movies: state.movies };
-}
-
-export default connect(mapStateToProps, actions)(App);
+export default connect(null, actions)(App);

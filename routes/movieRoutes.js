@@ -7,12 +7,12 @@ const mongoose = require('mongoose');
 var NodeGeocoder = require('node-geocoder');
 
 var options = {
-  provider: 'google',
+  provider: 'openstreetmap'
 
-  // Optional depending on the providers
-  httpAdapter: 'https', // Default
-  apiKey: 'AIzaSyB25ipgxhrhq5nNwOR-quo-4OmonrF_ODs', // for Mapquest, OpenCage, Google Premier
-  formatter: null // 'gpx', 'string', ...
+  // // Optional depending on the providers
+  // httpAdapter: 'https', // Default
+  // apiKey: 'AIzaSyB25ipgxhrhq5nNwOR-quo-4OmonrF_ODs', // for Mapquest, OpenCage, Google Premier
+  // formatter: null // 'gpx', 'string', ...
 };
 var geocoder = NodeGeocoder(options);
 
@@ -28,9 +28,10 @@ module.exports = app => {
       if (locations != null) {
         try {
           await geocoder
-            .geocode(locations + 'san Francisco')
+            .geocode(locations + ', san Francisco')
             .then((res, err) => {
-              console.log('new run');
+              // console.log(res);
+              // console.log('new run');
               if (res[0] == null) {
                 return;
               }
@@ -46,10 +47,10 @@ module.exports = app => {
                     title: movieTitle
                   });
                   const newMovie = await movie.save();
-                  console.log('new', newMovie.title);
+                  // console.log('new', newMovie.title);
                   return newMovie;
                 } else {
-                  console.log('existing', existingMovie.title);
+                  // console.log('existing', existingMovie.title);
                   return existingMovie;
                 }
               };
@@ -66,14 +67,6 @@ module.exports = app => {
                   });
                 }
               );
-              function wait(ms) {
-                var start = new Date().getTime();
-                var end = start;
-                while (end < start + ms) {
-                  end = new Date().getTime();
-                }
-              }
-              wait(500);
             })
             .catch(function(err) {
               console.log('ERRROR', err);

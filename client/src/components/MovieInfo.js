@@ -2,8 +2,9 @@ import _ from 'lodash';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-
 import React, { Component } from 'react';
+import getLocationObjects from '../utils/getLocationObjects';
+import locationsForRender from '../utils/locationsForRender';
 
 class MovieInfo extends Component {
   renderContent() {
@@ -20,21 +21,18 @@ class MovieInfo extends Component {
   }
 
   renderMovieLocations() {
-    function getLocationObject(locations, item) {
-      return locations[item];
-    }
-    const movieLocations = _.map(
-      this.props.selectedMovie.locations,
-      _.partial(getLocationObject, this.props.locations)
-    );
+    const selectedMovie = this.props.selectedMovie;
     const selectedLocation = this.props.selectedLocation;
-    const otherLocations = _.filter(
-      this.props.selectedMovie.locations,
-      location => {
-        return !selectedLocation._id;
-      }
+    const movieLocations = getLocationObjects(
+      selectedMovie,
+      this.props.locations
     );
-    return <div key={selectedLocation._id}>{selectedLocation.address}</div>;
+    const outputArray = locationsForRender(
+      selectedMovie,
+      selectedLocation,
+      this.props.locations
+    );
+    return outputArray;
   }
   render() {
     return <div>{this.renderContent()}</div>;

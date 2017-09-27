@@ -1,26 +1,27 @@
 import _ from 'lodash';
-
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-
 import React, { Component } from 'react';
 
 const google = window.google;
+
 class LocationList extends Component {
   renderContent() {
+    const locations = this.props.locations;
     const bounds = this.props.general.bounds;
+    const movies = this.props.movies.list;
 
     if (bounds) {
-      const filtered = _.chain(this.props.locations)
-        .filter(location => {
+      const filtered = _.chain(locations)
+        .filter(({ lat, lng }) => {
           return bounds.contains({
-            lat: parseFloat(location.lat),
-            lng: parseFloat(location.lng)
+            lat: parseFloat(lat),
+            lng: parseFloat(lng)
           });
         })
         .slice(0, 30)
-        .map(location => {
-          return location._movie;
+        .map(({ _movie }) => {
+          return _movie;
         })
         .value();
 
@@ -29,7 +30,7 @@ class LocationList extends Component {
       }
 
       return _.chain(filtered)
-        .map(_.partial(getMovieObject, this.props.movies.list))
+        .map(_.partial(getMovieObject, movies))
         .uniqBy('_id')
         .map(({ _id, title }) => {
           return <div key={_id}>{title}</div>;

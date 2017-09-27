@@ -11,6 +11,11 @@ class Landing extends Component {
     this.state = { currentAddress: '' };
   }
 
+  setCenter(address) {
+    address = address ? address : { address: 'San Francisco, USA' };
+    this.props.setCenter(address);
+  }
+
   handleLocationFormSubmit(e) {
     e.preventDefault();
     const { address } = this.props;

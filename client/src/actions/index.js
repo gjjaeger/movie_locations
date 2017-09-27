@@ -19,11 +19,8 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 
-('use strict');
-
 export const fetchMovies = () => async dispatch => {
   const result = await axios.get('/api/movies');
-  console.log(result.data);
   const location = await new schema.Entity(
     'locations',
     {},

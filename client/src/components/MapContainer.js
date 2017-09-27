@@ -1,22 +1,14 @@
 import _ from 'lodash';
-
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import {
-  withScriptjs,
-  GoogleMap as GMap,
-  withGoogleMap,
-  InfoWindow,
-  Marker
-} from 'react-google-maps';
+import { GoogleMap as GMap, withGoogleMap, Marker } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
-import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
 import SearchBar from './SearchBar';
-
+import ErrorBar from './ErrorBar';
 import React, { Component } from 'react';
+import calculateBoundLimit from '../utils/calculateBoundLimit';
 
 const google = window.google;
-const apiKey = 'AIzaSyAUCiTUszeY7oXzJ7x_RLaF69FbjNWV4Dg';
 
 const AsyncMap = _.flow(withGoogleMap)(props => (
   <GMap
@@ -33,37 +25,35 @@ const AsyncMap = _.flow(withGoogleMap)(props => (
 ));
 
 class GoogleMap extends Component {
-  setCenter(address) {
-    address = address ? address : { address: 'San Francisco, USA' };
-    this.props.setCenter(address);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { lastValidCenter: '' };
+  // }
 
   onBoundsChange(map) {
     this.props.setBounds(map.getBounds());
   }
 
   onMapLoad(map) {
-    const google = window.google;
     if (!map) return;
-
+    // this.setState({ lastValidCenter: map.getCenter });
+    let lastValidCenter = map.getCenter();
     this._map = map;
     this._mapContext = this._map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
     this._mapContext.addListener('idle', () => {
       this.onBoundsChange(map);
     });
-    let lastValidCenter = map.getCenter();
 
     if (map.props.children.props.children[0]) {
-      let boundLimit = new google.maps.LatLngBounds();
-      _.forEach(map.props.children.props.children, ({ props }) => {
-        boundLimit.extend(props.position);
-      });
+      const boundLimit = calculateBoundLimit(map.props.children.props.children);
+
       this.props.setBoundLimit(boundLimit);
 
       this._mapContext.addListener('center_changed', () => {
         if (boundLimit.contains(map.getCenter())) {
           lastValidCenter = map.getCenter();
+
           return;
         }
         this.props.setMapError(
@@ -103,7 +93,7 @@ class GoogleMap extends Component {
     return (
       <div>
         <SearchBar />
-        <span className="danger">{this.props.map.error}</span>
+        <ErrorBar />
         <AsyncMap
           id="map"
           loadingElement={<div>{'loading...'}</div>}
