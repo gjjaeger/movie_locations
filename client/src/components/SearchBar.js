@@ -41,7 +41,7 @@ class Landing extends Component {
       </div>
     );
     const inputProps = {
-      value: this.props.address,
+      value: this.props.address ? this.props.address : 'San Francisco',
       onChange: this.onLocationInputChange.bind(this),
       type: 'search',
       placeholder: 'Search Places...',
