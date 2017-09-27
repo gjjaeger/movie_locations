@@ -21,7 +21,7 @@ const Movie = mongoose.model('movies');
 const Location = mongoose.model('locations');
 
 module.exports = app => {
-  app.post('/api/movies', async (req, res) => {
+  app.post('/api/movies', (req, res) => {
     _.map(req.body, async entry => {
       const { locations } = entry;
       let title = entry.title.trim();
