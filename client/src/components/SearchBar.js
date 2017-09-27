@@ -6,6 +6,11 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 const google = window.google;
 
 class Landing extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { currentAddress: '' };
+  }
+
   handleLocationFormSubmit(e) {
     e.preventDefault();
     const { address } = this.props;
@@ -19,6 +24,8 @@ class Landing extends Component {
   }
 
   onLocationInputChange(address) {
+    // this.setState({ currentAddress: address });
+    // this.setState((currentAddress: address));
     this.props.setLocation({ address });
   }
   render() {
@@ -36,12 +43,19 @@ class Landing extends Component {
       autoFocus: true
     };
 
+    const options = {
+      bounds: this.props.general.boundLimit,
+      componentRestrictions: {
+        country: 'us'
+      }
+    };
+
     return (
       <div>
         <form onSubmit={this.handleLocationFormSubmit.bind(this)}>
           <PlacesAutocomplete
             inputProps={inputProps}
-            option={options}
+            options={options}
             onSelect={this.handleOnSelect.bind(this)}
             autocompleteItem={AutocompleteItem}
             onEnterKeyDown={this.handleOnSelect.bind(this)}
@@ -55,8 +69,8 @@ class Landing extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { address: state.map.address };
+function mapStateToProps({ map, general }) {
+  return { address: map.address, general };
 }
 
 export default connect(mapStateToProps, actions)(Landing);

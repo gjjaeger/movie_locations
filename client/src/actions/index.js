@@ -7,8 +7,11 @@ import {
   SET_LOCATION,
   SET_CENTER,
   SET_BOUNDS,
+  SET_BOUND_LIMIT,
   SET_LOCATIONS,
-  SET_MOVIE_IDS
+  SET_MOVIE_IDS,
+  SET_SELECTED_LOCATION,
+  SET_MAP_ERROR
 } from './types';
 import { normalize, schema, Schema, arrayOf } from 'normalizr';
 import PlacesAutocomplete, {
@@ -45,12 +48,13 @@ export const fetchMovies = () => async dispatch => {
   dispatch({ type: SET_LOCATIONS, payload: normalizedData.entities.locations });
 };
 
-export const onMarkerClick = selectedMovie => async dispatch => {
+export const onMarkerClick = (
+  selectedLocation,
+  selectedMovie
+) => async dispatch => {
   dispatch({ type: SHOW_INFO_WINDOW });
-  // dispatch({ type: SET_ACTIVE_MARKER, payload: { active_marker } });
-  debugger;
-  // _.filter(this.props.movies.list);
-  // dispatch({ type: SET_SELECTED_MOVIE, payload: selectedMovie });
+  dispatch({ type: SET_SELECTED_MOVIE, payload: selectedMovie });
+  dispatch({ type: SET_SELECTED_LOCATION, payload: selectedLocation });
 };
 
 export const setLocation = ({ address }) => async dispatch => {
@@ -76,5 +80,19 @@ export const setBounds = bounds => async dispatch => {
   dispatch({
     type: SET_BOUNDS,
     payload: bounds
+  });
+};
+
+export const setBoundLimit = boundLimit => async dispatch => {
+  dispatch({
+    type: SET_BOUND_LIMIT,
+    payload: boundLimit
+  });
+};
+
+export const setMapError = message => async dispatch => {
+  dispatch({
+    type: SET_MAP_ERROR,
+    payload: message
   });
 };

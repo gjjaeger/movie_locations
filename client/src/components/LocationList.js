@@ -18,6 +18,7 @@ class LocationList extends Component {
             lng: parseFloat(location.lng)
           });
         })
+        .slice(0, 30)
         .map(location => {
           return location._movie;
         })

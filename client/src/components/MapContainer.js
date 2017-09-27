@@ -46,14 +46,6 @@ class GoogleMap extends Component {
     const google = window.google;
     if (!map) return;
 
-    let bounds;
-    if (map.props.children.props.children[0]) {
-      bounds = new google.maps.LatLngBounds();
-      _.forEach(map.props.children.props.children, ({ props }) => {
-        bounds.extend(props.position);
-      });
-      map.fitBounds(bounds);
-    }
     this._map = map;
     this._mapContext = this._map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
@@ -62,19 +54,29 @@ class GoogleMap extends Component {
     });
     let lastValidCenter = map.getCenter();
 
-    if (bounds) {
+    if (map.props.children.props.children[0]) {
+      let boundLimit = new google.maps.LatLngBounds();
+      _.forEach(map.props.children.props.children, ({ props }) => {
+        boundLimit.extend(props.position);
+      });
+      this.props.setBoundLimit(boundLimit);
+
       this._mapContext.addListener('center_changed', () => {
-        if (bounds.contains(map.getCenter())) {
+        if (boundLimit.contains(map.getCenter())) {
           lastValidCenter = map.getCenter();
           return;
         }
+        this.props.setMapError(
+          'The Bounds of this Map are limited to San Francisco only'
+        );
         map.panTo(lastValidCenter);
       });
     }
   }
 
   markerClicked(location) {
-    this.props.onMarkerClick(location);
+    let movie = this.props.movies.list[location._movie];
+    this.props.onMarkerClick(location, movie);
   }
 
   renderContent() {
@@ -94,29 +96,6 @@ class GoogleMap extends Component {
     }
   }
 
-  // onPlacesChanged = () => {
-  //   const places = refs.searchBox.getPlaces();
-  //   const bounds = new google.maps.LatLngBounds();
-  //
-  //   places.forEach(place => {
-  //     if (place.geometry.viewport) {
-  //       bounds.union(place.geometry.viewport);
-  //     } else {
-  //       bounds.extend(place.geometry.location);
-  //     }
-  //   });
-  //   const nextMarkers = places.map(place => ({
-  //     position: place.geometry.location
-  //   }));
-  //   const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
-  //
-  //   this.setState({
-  //     center: nextCenter,
-  //     markers: nextMarkers
-  //   });
-  //   // refs.map.fitBounds(bounds);
-  // };
-
   render() {
     const center = this.props.map.center
       ? this.props.map.center
@@ -124,6 +103,7 @@ class GoogleMap extends Component {
     return (
       <div>
         <SearchBar />
+        <span className="danger">{this.props.map.error}</span>
         <AsyncMap
           id="map"
           loadingElement={<div>{'loading...'}</div>}

@@ -7,29 +7,46 @@ import React, { Component } from 'react';
 
 class MovieInfo extends Component {
   renderContent() {
-    if (this.props.selectedMovie) {
+    if (this.props.selectedMovie && this.props.selectedLocation) {
       return (
         <div>
           <div>{this.props.selectedMovie.title}</div>
-          {this.renderMovieLocations(this.props.selectedMovie)}
+          {this.renderMovieLocations()}
         </div>
       );
     }
 
     return 'No selected Movie';
   }
-  renderMovieLocations(selectedMovie) {
-    return _.map(selectedMovie.locations, location => {
-      return <div key={location._id}>{location.address}</div>;
-    });
+
+  renderMovieLocations() {
+    function getLocationObject(locations, item) {
+      return locations[item];
+    }
+    const movieLocations = _.map(
+      this.props.selectedMovie.locations,
+      _.partial(getLocationObject, this.props.locations)
+    );
+    const selectedLocation = this.props.selectedLocation;
+    const otherLocations = _.filter(
+      this.props.selectedMovie.locations,
+      location => {
+        return !selectedLocation._id;
+      }
+    );
+    return <div key={selectedLocation._id}>{selectedLocation.address}</div>;
   }
   render() {
     return <div>{this.renderContent()}</div>;
   }
 }
 
-function mapStateToProps({ general }) {
-  return { selectedMovie: general.selectedMovie };
+function mapStateToProps({ general, locations }) {
+  return {
+    selectedMovie: general.selectedMovie,
+    selectedLocation: general.selectedLocation,
+    locations: locations
+  };
 }
 
 export default connect(mapStateToProps, actions)(MovieInfo);
