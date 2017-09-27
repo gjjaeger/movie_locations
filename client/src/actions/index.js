@@ -39,10 +39,14 @@ export const fetchMovies = () => async dispatch => {
   const movieListSchema = [movie];
 
   const normalizedData = normalize(result.data, movieListSchema);
-
-  dispatch({ type: SET_MOVIES, payload: normalizedData.entities.movies });
-  dispatch({ type: SET_MOVIE_IDS, payload: normalizedData.result });
-  dispatch({ type: SET_LOCATIONS, payload: normalizedData.entities.locations });
+  if (normalizedData.result.length > 0) {
+    dispatch({ type: SET_MOVIES, payload: normalizedData.entities.movies });
+    dispatch({ type: SET_MOVIE_IDS, payload: normalizedData.result });
+    dispatch({
+      type: SET_LOCATIONS,
+      payload: normalizedData.entities.locations
+    });
+  }
 };
 
 export const onMarkerClick = (

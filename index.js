@@ -3,12 +3,16 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const keys = require('./config/keys');
+
 const app = express();
+
+mongoose.connect(keys.mongoURI);
 
 require('./models/Movie');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:movie-locations/movies');
+// mongoose.connect('mongodb://localhost:movie-locations/movies');
 
 app.use(morgan('combined')); //logging framework used for debugging
 app.use(cors());
