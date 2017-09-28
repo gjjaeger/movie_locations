@@ -41,7 +41,7 @@ class Landing extends Component {
       </div>
     );
     const inputProps = {
-      value: this.props.address ? this.props.address : 'San Francisco',
+      value: this.props.address ? this.props.address : '',
       onChange: this.onLocationInputChange.bind(this),
       type: 'search',
       placeholder: 'Search Places...',
@@ -64,10 +64,8 @@ class Landing extends Component {
             onSelect={this.handleOnSelect.bind(this)}
             autocompleteItem={AutocompleteItem}
             onEnterKeyDown={this.handleOnSelect.bind(this)}
+            className="search-input"
           />
-          <button action="submit" className="btn btn-primary">
-            Continue
-          </button>
         </form>
       </div>
     );

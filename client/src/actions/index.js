@@ -11,9 +11,13 @@ import {
   SET_LOCATIONS,
   SET_MOVIE_IDS,
   SET_SELECTED_LOCATION,
-  SET_MAP_ERROR
+  SET_MAP_ERROR,
+  SET_MARKER_OBJECTS,
+  SET_TEMPORARY_CENTER,
+  REMOVE_TEMPORARY_CENTER
 } from './types';
 import { normalize, schema, Schema, arrayOf } from 'normalizr';
+import _ from 'lodash';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
@@ -53,7 +57,6 @@ export const onMarkerClick = (
   selectedLocation,
   selectedMovie
 ) => async dispatch => {
-  dispatch({ type: SHOW_INFO_WINDOW });
   dispatch({ type: SET_SELECTED_MOVIE, payload: selectedMovie });
   dispatch({ type: SET_SELECTED_LOCATION, payload: selectedLocation });
 };
@@ -77,10 +80,29 @@ export const setCenter = ({ address }) => async dispatch => {
     .catch(error => console.error('Error', error));
 };
 
+export const setTemporaryCenter = latLng => async dispatch => {
+  dispatch({
+    type: SET_TEMPORARY_CENTER,
+    payload: latLng
+  });
+};
+
+export const removeTemporaryCenter = () => {
+  return { type: REMOVE_TEMPORARY_CENTER, payload: 'temporaryCenter' };
+};
+
 export const setBounds = bounds => async dispatch => {
   dispatch({
     type: SET_BOUNDS,
     payload: bounds
+  });
+};
+
+export const setMarkerObjects = markersArray => async dispatch => {
+  const markersObject = _.mapKeys(markersArray, 'key');
+  dispatch({
+    type: SET_MARKER_OBJECTS,
+    payload: markersObject
   });
 };
 
@@ -96,4 +118,11 @@ export const setMapError = message => async dispatch => {
     type: SET_MAP_ERROR,
     payload: message
   });
+};
+
+export const setMarker = marker => {
+  return {
+    type: SET_ACTIVE_MARKER,
+    payload: marker
+  };
 };

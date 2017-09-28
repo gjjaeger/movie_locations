@@ -6,7 +6,7 @@ class ErrorBar extends Component {
   render() {
     return (
       <div>
-        <span>{this.props.errorMessage}</span>
+        <span className="error-message">{this.props.errorMessage}</span>
       </div>
     );
   }

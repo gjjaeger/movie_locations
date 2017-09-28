@@ -1,4 +1,4 @@
-export const SET_MOVIES = 'fetch_movies';
+export const SET_MOVIES = 'set_movies';
 export const SHOW_INFO_WINDOW = 'show_info_window';
 export const SET_ACTIVE_MARKER = 'set_active_marker';
 export const SET_SELECTED_MOVIE = 'set_selected_movie';
@@ -10,3 +10,6 @@ export const SET_BOUND_LIMIT = 'set_bound_limit';
 export const SET_LOCATIONS = 'set_locations';
 export const SET_MOVIE_IDS = 'set_movie_ids';
 export const SET_MAP_ERROR = 'set_map_error';
+export const SET_MARKER_OBJECTS = 'set_marker_objects';
+export const SET_TEMPORARY_CENTER = 'set_temporary_center';
+export const REMOVE_TEMPORARY_CENTER = 'remove_temporary_center';

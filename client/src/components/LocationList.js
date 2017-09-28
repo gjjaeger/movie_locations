@@ -15,11 +15,10 @@ class LocationList extends Component {
       const filtered = _.chain(locations)
         .filter(({ lat, lng }) => {
           return bounds.contains({
-            lat: parseFloat(lat),
-            lng: parseFloat(lng)
+            lat: lat,
+            lng: lng
           });
         })
-        .slice(0, 30)
         .map(({ _movie }) => {
           return _movie;
         })
@@ -32,14 +31,25 @@ class LocationList extends Component {
       return _.chain(filtered)
         .map(_.partial(getMovieObject, movies))
         .uniqBy('_id')
-        .map(({ _id, title }) => {
-          return <div key={_id}>{title}</div>;
+        .map(movie => {
+          return (
+            <div
+              className="shown-location small-title col-xs-6"
+              onMouseEnter={() => onMouseEnter(movie)}
+              onMouseLeave={() => onMouseMovie()}
+              key={movie._id}
+            >
+              {movie.title}
+            </div>
+          );
         })
         .value();
     }
   }
   render() {
-    return <div>{this.renderContent.bind(this)()}</div>;
+    return (
+      <div className="location-list">{this.renderContent.bind(this)()}</div>
+    );
   }
 }
 

@@ -1,7 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 
-export default (selectedMovie, selectedLocation, locations) => {
+export default (
+  selectedMovie,
+  selectedLocation,
+  locations,
+  onMouseEnter,
+  onMouseLeave
+) => {
   const otherLocations = _.chain(selectedMovie.locations)
     .filter(location => {
       return location != selectedLocation._id;
@@ -13,14 +19,27 @@ export default (selectedMovie, selectedLocation, locations) => {
 
   let outputArray = [];
   outputArray.push(
-    <div key={selectedLocation._id}>
-      <strong>{selectedLocation.address}</strong>
+    <div
+      id="selected-location"
+      key={selectedLocation._id}
+      onMouseEnter={() => onMouseEnter(selectedLocation)}
+      onMouseLeave={() => onMouseLeave()}
+    >
+      {selectedLocation.address}
     </div>
   );
   if (otherLocations.length > 0) {
     outputArray.push(<div key={'title'}>Other Locations: </div>);
     _.forEach(otherLocations, location => {
-      outputArray.push(<div key={location._id}>{location.address}</div>);
+      outputArray.push(
+        <div
+          key={location._id}
+          onMouseEnter={() => onMouseEnter(location)}
+          onMouseLeave={() => onMouseLeave()}
+        >
+          {location.address}
+        </div>
+      );
     });
   }
   return outputArray;

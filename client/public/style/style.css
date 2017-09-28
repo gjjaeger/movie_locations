@@ -1,0 +1,85 @@
+#PlacesAutocomplete__root {
+  width: 60vw;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+}
+
+#PlacesAutocomplete__root,
+.selected-movie,
+.location-list,
+.error-message {
+  z-index: 5;
+  position: absolute;
+  background-color: white;
+}
+
+#PlacesAutocomplete__root input {
+  margin-bottom: 0;
+  padding: 0 !important;
+}
+
+#search-button {
+  display: inline-block;
+  float: right;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.map,
+.map-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.location-list {
+  width: 60vw;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  background-color: white;
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.shown-location {
+  height: 50%;
+  display: inline-block;
+  padding: 10px 0;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.selected-movie {
+  right: 0;
+  top: 50%;
+  max-width: 200px;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 10px;
+}
+
+#selected-location {
+  font-weight: 600;
+}
+
+.small-title {
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+  display: block;
+}

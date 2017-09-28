@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const locationSchema = new Schema({
   address: String,
-  lat: String,
-  lng: String,
+  lat: Number,
+  lng: Number,
   _movie: String
 });
 

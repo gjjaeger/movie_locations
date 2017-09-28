@@ -25,22 +25,18 @@ const AsyncMap = _.flow(withGoogleMap)(props => (
 ));
 
 class GoogleMap extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { lastValidCenter: '' };
-  // }
-
   onBoundsChange(map) {
     this.props.setBounds(map.getBounds());
   }
 
   onMapLoad(map) {
     if (!map) return;
-    // this.setState({ lastValidCenter: map.getCenter });
+    //initialize lastValidCenter for this component
     let lastValidCenter = map.getCenter();
+    //for other components
     this._map = map;
     this._mapContext = this._map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-
+    this.props.setMarkerObjects(map.props.children.props.children);
     this._mapContext.addListener('idle', () => {
       this.onBoundsChange(map);
     });
@@ -53,7 +49,6 @@ class GoogleMap extends Component {
       this._mapContext.addListener('center_changed', () => {
         if (boundLimit.contains(map.getCenter())) {
           lastValidCenter = map.getCenter();
-
           return;
         }
         this.props.setMapError(
@@ -67,29 +62,61 @@ class GoogleMap extends Component {
   markerClicked(location) {
     let movie = this.props.movies.list[location._movie];
     this.props.onMarkerClick(location, movie);
+    let markersArray = this._map.props.children.props.children;
+    let markersObject = _.mapKeys(markersArray, 'key');
+    this.props.setMarker(markersObject[location._id]);
   }
 
   renderContent() {
     if (this.props.locations) {
-      return _.map(this.props.locations, location => {
+      return _.map(
+        this.props.locations,
+        _.partial(
+          createMarker,
+          this.props.map.activeMarker,
+          this.markerClicked.bind(this)
+        )
+      );
+      function createMarker(activeMarker, onMarkerClick, location) {
+        let iconUrl;
+
+        if (
+          activeMarker &&
+          activeMarker.props.position.lat === location.lat &&
+          activeMarker.props.position.lng === location.lng
+        ) {
+          debugger;
+          iconUrl =
+            'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png';
+        } else {
+          iconUrl =
+            'https://maps.google.com/mapfiles/kml/shapes/library_maps.png';
+        }
         return (
           <Marker
             key={location._id}
             position={{
-              lat: parseFloat(location.lat),
-              lng: parseFloat(location.lng)
+              lat: location.lat,
+              lng: location.lng
             }}
-            onClick={() => this.markerClicked(location)}
+            onClick={() => onMarkerClick(location)}
+            icon={{ url: iconUrl }}
           />
         );
-      });
+      }
     }
   }
 
   render() {
-    const center = this.props.map.center
-      ? this.props.map.center
-      : { lat: 37.7749, lng: -122.4194 };
+    let center;
+    if (this.props.map.temporaryCenter) {
+      center = this.props.map.temporaryCenter;
+    } else if (this.props.center) {
+      center = this.props.center;
+    } else {
+      center = { lat: 37.7749, lng: -122.4194 };
+    }
+
     return (
       <div>
         <SearchBar />
@@ -102,12 +129,17 @@ class GoogleMap extends Component {
           minZoom={7}
           maxZoom={15}
           onMapLoad={this.onMapLoad.bind(this)}
-          containerElement={<div style={{ height: '250px', width: '100%' }} />}
-          mapElement={<div style={{ height: '250px', width: '100%' }} />}
+          containerElement={<div className="map-container" />}
+          mapElement={<div className="map" />}
           defaultZoom={10}
           // onClick={_.noop}
         >
-          <MarkerClusterer averageCenter enableRetinaIcons gridSize={60}>
+          <MarkerClusterer
+            averageCenter
+            enableRetinaIcons
+            gridSize={60}
+            maxZoom={10}
+          >
             {this.renderContent()}
           </MarkerClusterer>
         </AsyncMap>
