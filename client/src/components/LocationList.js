@@ -35,8 +35,6 @@ class LocationList extends Component {
           return (
             <div
               className="shown-location small-title col-xs-6"
-              onMouseEnter={() => onMouseEnter(movie)}
-              onMouseLeave={() => onMouseMovie()}
               key={movie._id}
             >
               {movie.title}
@@ -48,7 +46,12 @@ class LocationList extends Component {
   }
   render() {
     return (
-      <div className="location-list">{this.renderContent.bind(this)()}</div>
+      <div className="location-list">
+        <span className="center col-xs-12 subtitle">
+          Movies filmed in this area
+        </span>
+        {this.renderContent.bind(this)()}
+      </div>
     );
   }
 }

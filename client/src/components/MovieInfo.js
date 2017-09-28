@@ -25,7 +25,6 @@ class MovieInfo extends Component {
   }
 
   onMouseEnter(location) {
-    const google = window.google;
     const markers = this.props.markerObjects;
     this.props.setMarker(markers[location._id]);
 
@@ -38,6 +37,8 @@ class MovieInfo extends Component {
 
   onMouseLeave() {
     this.props.removeTemporaryCenter();
+    const markers = this.props.markerObjects;
+    this.props.setMarker(markers[this.props.selectedLocation._id]);
   }
 
   renderMovieLocations() {
@@ -59,7 +60,7 @@ class MovieInfo extends Component {
   render() {
     return (
       <div className="selected-movie">
-        <span className="small-title">Selected Movie</span>
+        <span className="subtitle">Selected Movie</span>
         {this.renderContent()}
       </div>
     );

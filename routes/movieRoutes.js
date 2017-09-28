@@ -28,7 +28,7 @@ module.exports = app => {
       if (locations != null) {
         try {
           await geocoder
-            .geocode(locations + ', san Francisco')
+            .geocode(locations + ', San Francisco, CA, USA')
             .then((res, err) => {
               // console.log(res);
               // console.log('new run');

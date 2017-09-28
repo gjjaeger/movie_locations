@@ -5,7 +5,8 @@ import {
   SET_SELECTED_MOVIE,
   SET_SELECTED_LOCATION,
   SET_MAP_ERROR,
-  SET_MARKER_OBJECTS
+  SET_MARKER_OBJECTS,
+  SET_MAP_OBJECT
 } from '../actions/types';
 
 export default function(state = {}, action) {
@@ -24,6 +25,8 @@ export default function(state = {}, action) {
       return { ...state, mapError: action.payload };
     case SET_MARKER_OBJECTS:
       return { ...state, markerObjects: action.payload };
+    case SET_MAP_OBJECT:
+      return { ...state, mapObject: action.payload };
     default:
       return state;
   }

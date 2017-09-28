@@ -14,7 +14,12 @@ import {
   SET_MAP_ERROR,
   SET_MARKER_OBJECTS,
   SET_TEMPORARY_CENTER,
-  REMOVE_TEMPORARY_CENTER
+  CLEAR_TEMPORARY_CENTER,
+  SET_ACTIVE_MOVIE_MARKERS,
+  CLEAR_ACTIVE_MOVIE_MARKERS,
+  SET_TEMPORARY_BOUNDS,
+  CLEAR_TEMPORARY_BOUNDS,
+  SET_MAP_OBJECT
 } from './types';
 import { normalize, schema, Schema, arrayOf } from 'normalizr';
 import _ from 'lodash';
@@ -72,6 +77,7 @@ export const setCenter = ({ address }) => async dispatch => {
   geocodeByAddress(address)
     .then(results => getLatLng(results[0]))
     .then(latLng => {
+      debugger;
       dispatch({
         type: SET_CENTER,
         payload: latLng
@@ -88,7 +94,7 @@ export const setTemporaryCenter = latLng => async dispatch => {
 };
 
 export const removeTemporaryCenter = () => {
-  return { type: REMOVE_TEMPORARY_CENTER, payload: 'temporaryCenter' };
+  return { type: CLEAR_TEMPORARY_CENTER, payload: 'temporaryCenter' };
 };
 
 export const setBounds = bounds => async dispatch => {
@@ -124,5 +130,37 @@ export const setMarker = marker => {
   return {
     type: SET_ACTIVE_MARKER,
     payload: marker
+  };
+};
+
+export const highlightMovieLocations = markers => {
+  return {
+    type: SET_ACTIVE_MOVIE_MARKERS,
+    payload: markers
+  };
+};
+
+export const unhighlightMovieLocations = () => {
+  return {
+    type: CLEAR_ACTIVE_MOVIE_MARKERS,
+    payload: 'activeMovieLocations'
+  };
+};
+
+export const setTemporaryBounds = bounds => async dispatch => {
+  dispatch({
+    type: SET_TEMPORARY_BOUNDS,
+    payload: bounds
+  });
+};
+
+export const removeTemporaryBounds = () => {
+  return { type: CLEAR_TEMPORARY_BOUNDS, payload: 'temporaryBounds' };
+};
+
+export const setMapObject = map => {
+  return {
+    type: SET_MAP_OBJECT,
+    payload: map
   };
 };
