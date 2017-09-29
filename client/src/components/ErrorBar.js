@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
 
 class ErrorBar extends Component {
+  renderContent() {
+    if (this.props.errorMessage) {
+      return (
+        <div>
+          <span className="error-message">{this.props.errorMessage}</span>
+        </div>
+      );
+    }
+    return;
+  }
   render() {
-    return (
-      <div>
-        <span className="error-message">{this.props.errorMessage}</span>
-      </div>
-    );
+    return <div>{this.renderContent()}</div>;
   }
 }
 

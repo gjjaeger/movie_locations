@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
   SET_MOVIES,
   SET_ACTIVE_MARKER,
-  SHOW_INFO_WINDOW,
   SET_SELECTED_MOVIE,
   SET_LOCATION,
   SET_CENTER,

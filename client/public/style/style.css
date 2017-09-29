@@ -9,6 +9,7 @@
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
+  padding: 5 !important;
 }
 
 #PlacesAutocomplete__root,
@@ -21,14 +22,39 @@
   background-color: white;
 }
 
+.bold {
+  font-weight: 900;
+}
+
+#movie-title {
+  font-size: 12px;
+  padding: 15px 0px;
+  display: block;
+}
+
+#selected-location,
+.other-location {
+  padding: 15px 0;
+  font-size: 12px;
+  padding: 5px;
+}
+
+#selected-location:hover,
+.other-location:hover {
+  background-color: grey;
+}
+
 .error-message {
+  font-size: 14px;
+  padding: 5px 15px;
   left: 50%;
+  background-color: red;
   transform: translateX(-50%);
 }
 
 #PlacesAutocomplete__root input {
   margin-bottom: 0;
-  padding: 5 !important;
+
   border-bottom: 0 !important;
 }
 
@@ -59,7 +85,7 @@
 .location-list {
   width: 60vw;
   bottom: 0;
-  left: 0;
+  left: 120px;
   z-index: 5;
   background-color: white;
   max-height: 100px;
@@ -108,7 +134,7 @@
 
 .movie-list {
   top: 0;
-  max-height: 500px;
+  height: 100vh;
   width: 120px;
   overflow-y: scroll;
   border-right: 1px solid grey;

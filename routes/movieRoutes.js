@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
 var NodeGeocoder = require('node-geocoder');
 
 var options = {
-  provider: 'openstreetmap'
+  provider: 'openstreetmap',
 
   // // Optional depending on the providers
-  // httpAdapter: 'https', // Default
+  httpAdapter: 'https' // Default
   // apiKey: 'AIzaSyB25ipgxhrhq5nNwOR-quo-4OmonrF_ODs', // for Mapquest, OpenCage, Google Premier
   // formatter: null // 'gpx', 'string', ...
 };
@@ -24,18 +24,22 @@ module.exports = app => {
   app.post('/api/movies', async (req, res) => {
     _.map(req.body, async entry => {
       const { locations } = entry;
-      let title = entry.title.trim();
+      const title = entry.title.trim();
       if (locations != null) {
         try {
           await geocoder
             .geocode(locations + ', San Francisco, CA, USA')
             .then((res, err) => {
-              // console.log(res);
               // console.log('new run');
               if (res[0] == null) {
                 return;
               }
-              let geoAddress = {
+              if (res[0].state != 'California') {
+                console.log(res[0].state);
+                return;
+              }
+
+              const geoAddress = {
                 address: locations,
                 lat: res[0].latitude,
                 lng: res[0].longitude
@@ -58,8 +62,7 @@ module.exports = app => {
               Movie.findOne(
                 { title: entry.title.trim() },
                 async (err, existingMovie) => {
-                  const fetchMovie = findMovie(existingMovie);
-                  fetchMovie.then((res, err) => {
+                  findMovie(existingMovie).then((res, err) => {
                     const movieObj = res;
                     geoAddress._movie = movieObj.id;
                     movieObj.locations.push(geoAddress);
@@ -69,10 +72,12 @@ module.exports = app => {
               );
             })
             .catch(function(err) {
-              console.log('ERRROR', err);
+              // console.log('ERRROR', err);
               return;
             });
-        } catch (err) {}
+        } catch (err) {
+          console.log(err);
+        }
       }
     });
     res.send('done');

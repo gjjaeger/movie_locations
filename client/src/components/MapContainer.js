@@ -10,6 +10,7 @@ import calculateBoundLimit from '../utils/calculateBoundLimit';
 
 const google = window.google;
 
+//Load Async Map
 const AsyncMap = _.flow(withGoogleMap)(props => (
   <GMap
     defaultCenter={props.defaultCenter}
@@ -25,6 +26,8 @@ const AsyncMap = _.flow(withGoogleMap)(props => (
 ));
 
 class GoogleMap extends Component {
+  //used by LocationList component to render a list of movies
+  //that were filmed within the current bounds
   onBoundsChange(map) {
     this.props.setBounds(map.getBounds());
   }
@@ -41,6 +44,8 @@ class GoogleMap extends Component {
       this.onBoundsChange(map);
     });
     this.props.setMapObject(map);
+
+    //set a bound limit to the area of the markers
     if (map.props.children.props.children[0]) {
       const boundLimit = calculateBoundLimit(map.props.children.props.children);
 
@@ -51,6 +56,7 @@ class GoogleMap extends Component {
           lastValidCenter = map.getCenter();
           return;
         }
+        //if current center is not within bounds, center map at lastValidCenter
         this.props.setMapError(
           'The Bounds of this Map are limited to San Francisco only'
         );
@@ -60,24 +66,31 @@ class GoogleMap extends Component {
   }
 
   markerClicked(location) {
-    let movie = this.props.movies.list[location._movie];
+    let movie = this.props.movieList[location._movie];
+    //set selectedMovie and selectedLocation
     this.props.onMarkerClick(location, movie);
     let markersArray = this._map.props.children.props.children;
     let markersObject = _.mapKeys(markersArray, 'key');
+    //set selectedMarker
     this.props.setMarker(markersObject[location._id]);
   }
 
-  renderContent() {
+  renderMarkers() {
     if (this.props.locations) {
+      //activeMarker and activeMovieLocations should be highlighted.
+      //activeMarker is set when a Marker is clicked.
+      //activeMovieLocations is set when user hovers over movie.
       return _.map(
         this.props.locations,
         _.partial(
           createMarker,
-          this.props.map.activeMarker,
-          this.props.map.activeMovieLocations,
+          this.props.activeMarker,
+          this.props.activeMovieLocations,
           this.markerClicked.bind(this)
         )
       );
+
+      //check if current Marker appears on activeMovieLocations Locations list
       function isMarkerSelected(activeMovieLocations, location) {
         return _.some(activeMovieLocations, marker => {
           return (
@@ -94,23 +107,24 @@ class GoogleMap extends Component {
         location
       ) {
         let iconUrl;
+
         if (
           activeMarker &&
           activeMarker.props.position.lat === location.lat &&
           activeMarker.props.position.lng === location.lng
         ) {
+          //adds special icon for activeMarker
           iconUrl =
             'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png';
         } else if (
           activeMovieLocations &&
           isMarkerSelected(activeMovieLocations, location)
         ) {
-          iconUrl = iconUrl;
-          if (isMarkerSelected(activeMovieLocations, location)) {
-            iconUrl =
-              'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png';
-          }
+          //adds special icon for activeMovieLocations
+          iconUrl =
+            'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
         } else {
+          //no special icon
           iconUrl =
             'https://maps.google.com/mapfiles/kml/shapes/library_maps.png';
         }
@@ -133,10 +147,10 @@ class GoogleMap extends Component {
   render() {
     let center;
 
-    if (this.props.map.temporaryCenter) {
-      center = this.props.map.temporaryCenter;
-    } else if (this.props.map.center) {
-      center = this.props.map.center;
+    if (this.props.temporaryCenter) {
+      center = this.props.temporaryCenter;
+    } else if (this.props.center) {
+      center = this.props.center;
     } else {
       center = { lat: 37.7749, lng: -122.4194 };
     }
@@ -164,7 +178,7 @@ class GoogleMap extends Component {
             gridSize={60}
             maxZoom={10}
           >
-            {this.renderContent()}
+            {this.renderMarkers()}
           </MarkerClusterer>
         </AsyncMap>
       </div>
@@ -173,7 +187,14 @@ class GoogleMap extends Component {
 }
 
 function mapStateToProps({ map, movies, locations }) {
-  return { map, movies, locations };
+  return {
+    center: map.center,
+    temporaryCenter: map.temporaryCenter,
+    activeMarker: map.activeMarker,
+    activeMovieLocations: map.activeMovieLocations,
+    movieList: movies.list,
+    locations
+  };
 }
 
 export default connect(mapStateToProps, actions)(GoogleMap);

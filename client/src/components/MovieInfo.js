@@ -11,7 +11,9 @@ class MovieInfo extends Component {
     if (this.props.selectedMovie && this.props.selectedLocation) {
       return (
         <div>
-          <div>{this.props.selectedMovie.title}</div>
+          <span className="bold" id="movie-title">
+            {this.props.selectedMovie.title}
+          </span>
           {this.renderMovieLocations()}
         </div>
       );
@@ -24,6 +26,9 @@ class MovieInfo extends Component {
     );
   }
 
+  //on location hover:
+  //set activeMarker = location's marker
+  //set mapTemporaryCenter = location's position
   onMouseEnter(location) {
     const markers = this.props.markerObjects;
     this.props.setMarker(markers[location._id]);
@@ -35,6 +40,8 @@ class MovieInfo extends Component {
     this.props.setTemporaryCenter(latLng);
   }
 
+  //remove temp. center && reset active Marker to the Marker
+  //that was clicked on to show this window
   onMouseLeave() {
     this.props.removeTemporaryCenter();
     const markers = this.props.markerObjects;
@@ -44,10 +51,12 @@ class MovieInfo extends Component {
   renderMovieLocations() {
     const selectedMovie = this.props.selectedMovie;
     const selectedLocation = this.props.selectedLocation;
+    //getLocationObjects can be found in ../utils/getLocationObjects
     const movieLocations = getLocationObjects(
       selectedMovie,
       this.props.locations
     );
+    //locationsForRender can be found in ../utils/locationsForRender
     const outputArray = locationsForRender(
       selectedMovie,
       selectedLocation,

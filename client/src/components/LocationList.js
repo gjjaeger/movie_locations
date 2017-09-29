@@ -8,10 +8,11 @@ const google = window.google;
 class LocationList extends Component {
   renderContent() {
     const locations = this.props.locations;
-    const bounds = this.props.general.bounds;
-    const movies = this.props.movies.list;
+    const bounds = this.props.mapBounds;
+    const movies = this.props.movieList;
 
     if (bounds) {
+      // filter out all locations/markers within bounds
       const filtered = _.chain(locations)
         .filter(({ lat, lng }) => {
           return bounds.contains({
@@ -27,10 +28,10 @@ class LocationList extends Component {
       function getMovieObject(movies, item) {
         return movies[item];
       }
-
+      //get locations' movie objects and return content for render
       return _.chain(filtered)
+        .uniqBy()
         .map(_.partial(getMovieObject, movies))
-        .uniqBy('_id')
         .map(movie => {
           return (
             <div
@@ -56,8 +57,12 @@ class LocationList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return state;
+function mapStateToProps({ general, movies, locations }) {
+  return {
+    mapBounds: general.bounds,
+    movieList: movies.list,
+    locations
+  };
 }
 
 export default connect(mapStateToProps, actions)(LocationList);
