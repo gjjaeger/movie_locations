@@ -29,32 +29,47 @@ This app consists of a single page. There are 4 ways to filter the results:
   4. Filter results by clicking on Markers.
   To find out what movie was shot at a particular location, simply click the marker. You can now also see the other film locations for this movie in the info window on the right. Simply hover on them to locate them on the Map.
 
-##Dependencies
+## Dependencies
 
   Google Maps: [React Google Maps](https://github.com/tomchentw/react-google-maps)
+
     - Prior to settling with this one, I played around with other react google map packages but quickly felt like there were limitations especially regarding the available documentation
-  Autocomplete Search: [React Places] Autocomplete(https://github.com/kenny-hibino/react-places-autocomplete)
+
+  Autocomplete Search: [React Places Autocomplete](https://github.com/kenny-hibino/react-places-autocomplete)
+
     - A package that was very easy to implement and use.
-  Data manipulation: normalizr and lodash:
+
+  Data manipulation: normalizr and lodash
+
   Geocoder: node-geocoder
 
   Other packages:
+
   body-parser
+
   axios
+
   concurrently  
+
   cors  
+
   express
+
   mongoose
+
   morgan  
+
   nodemon
 
 
-##Architecture  
+## Architecture  
 
 For this project I chose to combine front-end and back-end into one app, rather than creating a separate app for the back-end API.
 
-##Things still to come
+## Things still to come
 
 Regrettably, due to time constraints, I was not able to implement thorough testing. This will be my priority going forward.
+
 The UI is in dire need of attention.
+
 To avoid marker overlaps I will be implementing something like Marker Spiderfier.
