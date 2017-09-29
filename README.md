@@ -1,6 +1,6 @@
-Movie Locations Project.
+## Movie Locations Project.
 
-This movie is hosted on Heroku at https://powerful-tundra-44048.herokuapp.com/
+# This movie is hosted on Heroku at https://powerful-tundra-44048.herokuapp.com/
 
 A service that allows users to see where their favorite movies and TV Shows are filmed around San Francisco.
 
@@ -33,11 +33,11 @@ This app consists of a single page. There are 4 ways to filter the results:
 
   Google Maps: [React Google Maps](https://github.com/tomchentw/react-google-maps)
 
-    - Prior to settling with this one, I played around with other react google map packages but quickly felt like there were limitations especially regarding the available documentation
+    Prior to settling with this one, I played around with other react google map packages but quickly felt like there were limitations especially regarding the available documentation
 
   Autocomplete Search: [React Places Autocomplete](https://github.com/kenny-hibino/react-places-autocomplete)
 
-    - A package that was very easy to implement and use.
+    A package that was very easy to implement and use.
 
   Data manipulation: normalizr and lodash
 
@@ -69,6 +69,8 @@ For this project I chose to combine front-end and back-end into one app, rather 
 ## Things still to come
 
 Regrettably, due to time constraints, I was not able to implement thorough testing. This will be my priority going forward.
+
+For an example of some basic tests written by me for react: https://github.com/gjjaeger/ecosia_challenge
 
 The UI is in dire need of attention.
 
