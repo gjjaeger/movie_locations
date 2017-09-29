@@ -1,7 +1,4 @@
 const _ = require('lodash');
-// var async = require('asyncawait/async');
-// var async2 = require('async');
-// const awaite = require('asyncawait/await');
 
 const mongoose = require('mongoose');
 var NodeGeocoder = require('node-geocoder');

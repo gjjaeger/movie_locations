@@ -48,7 +48,8 @@
   font-size: 14px;
   padding: 5px 15px;
   left: 50%;
-  background-color: red;
+  background-color: #e36868;
+  opacity: 0.9;
   transform: translateX(-50%);
 }
 
