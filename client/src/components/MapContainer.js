@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { GoogleMap as GMap, withGoogleMap, Marker } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
-import SearchBar from './SearchBar';
-import ErrorBar from './ErrorBar';
+
 import React, { Component } from 'react';
 import calculateBoundLimit from '../utils/calculateBoundLimit';
 
@@ -157,8 +156,6 @@ class GoogleMap extends Component {
 
     return (
       <div>
-        <SearchBar />
-        <ErrorBar />
         <AsyncMap
           id="map"
           loadingElement={<div>{'loading...'}</div>}
