@@ -9,8 +9,9 @@ import ErrorBar from './ErrorBar';
 const Landing = () => {
   return (
     <div className="landing-container">
-      <MapContainer />
       <SearchBar />
+      <MapContainer />
+
       <ErrorBar />
       <MovieList />
       <LocationList />

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
-class Landing extends Component {
+class SearchBar extends Component {
   //set map center to address location
   setCenter(address) {
     address = address ? address : { address: 'San Francisco, USA' };
@@ -42,7 +42,7 @@ class Landing extends Component {
     };
 
     return (
-      <div>
+      <div className="search-bar">
         <form>
           <PlacesAutocomplete
             inputProps={inputProps}
@@ -62,4 +62,4 @@ function mapStateToProps({ map, general }) {
   return { address: map.address, general };
 }
 
-export default connect(mapStateToProps, actions)(Landing);
+export default connect(mapStateToProps, actions)(SearchBar);

@@ -18,7 +18,7 @@
 .error-message,
 .movie-list {
   z-index: 5;
-  position: absolute;
+  position: absolute !important;
   background-color: white;
 }
 
@@ -59,15 +59,7 @@
 
 #PlacesAutocomplete__root input {
   margin-bottom: 0;
-
   border-bottom: 0 !important;
-}
-
-#search-button {
-  display: inline-block;
-  float: right;
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 .map-container {
