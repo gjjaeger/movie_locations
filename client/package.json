@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
+    "/auth/*": {
+      "target": "http://localhost:5000"
+    },
     "/api/*": {
       "target": "http://localhost:5000"
     }
@@ -29,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "test":
+      "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
   "devDependencies": {
@@ -46,6 +50,7 @@
     "jsdom": "^8.5.0",
     "jsdom-global": "^2.1.1",
     "mocha": "^3.5.3",
-    "react-addons-test-utils": "^15.6.0"
+    "react-addons-test-utils": "^15.6.0",
+    "window-or-global": "^1.0.1"
   }
 }

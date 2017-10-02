@@ -1,9 +1,6 @@
-import _ from 'lodash';
-
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import React, { Component } from 'react';
-import getLocationObjects from '../utils/getLocationObjects';
 import locationsForRender from '../utils/locationsForRender';
 
 class MovieInfo extends Component {
@@ -51,11 +48,6 @@ class MovieInfo extends Component {
   renderMovieLocations() {
     const selectedMovie = this.props.selectedMovie;
     const selectedLocation = this.props.selectedLocation;
-    //getLocationObjects can be found in ../utils/getLocationObjects
-    const movieLocations = getLocationObjects(
-      selectedMovie,
-      this.props.locations
-    );
     //locationsForRender can be found in ../utils/locationsForRender
     const outputArray = locationsForRender(
       selectedMovie,

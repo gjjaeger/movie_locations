@@ -21,14 +21,17 @@ import {
   CLEAR_ACTIVE_MOVIE_MARKERS,
   SET_TEMPORARY_BOUNDS,
   CLEAR_TEMPORARY_BOUNDS,
-  SET_MAP_OBJECT
+  SET_MAP_OBJECT,
+  FETCH_USER
 } from './types';
-import { normalize, schema, Schema, arrayOf } from 'normalizr';
+import { normalize, schema } from 'normalizr';
 
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+
+export const fetchUser = () => async dispatch => {
+  const res = await axios.get('/api/current_user');
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
 
 export const fetchMovies = () => async dispatch => {
   const result = await axios.get('/api/movies');

@@ -8,6 +8,8 @@ const google = window.google;
 //components purpose is to highlight the locations where a movie was filmed on hover
 class MovieTile extends Component {
   onMouseEnter(hoveredMovie) {
+    debugger;
+
     const markers = this.props.markerObjects;
     function getLocationMarker(markers, item) {
       return markers[item];
@@ -19,6 +21,7 @@ class MovieTile extends Component {
     );
 
     if (movieMarkers.length > 1) {
+      console.log(google);
       //find bounds for movie's markers if more than one
       let bounds = new google.maps.LatLngBounds();
       _.forEach(movieMarkers, ({ props }) => {
@@ -39,7 +42,7 @@ class MovieTile extends Component {
   }
 
   render() {
-    const movie = this.props.hoveredMovie;
+    const movie = this.props.movie;
     return (
       <div
         className="movie-item"

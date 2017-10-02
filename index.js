@@ -3,7 +3,12 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const keys = require('./config/keys');
+require('./models/User');
+//order important here. otherwise userSchema is not loaded
+require('./services/passport');
 
 const app = express();
 
@@ -18,8 +23,18 @@ app.use(morgan('combined')); //logging framework used for debugging
 app.use(cors());
 
 app.use(bodyParser.json());
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes/movieRoutes')(app);
+require('./routes/authRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   //epxress will serve up production assets

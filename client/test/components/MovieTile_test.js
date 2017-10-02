@@ -1,11 +1,45 @@
 import { renderComponent, expect } from '../test_helper';
-import MovieList from '../../src/components/MovieList';
+import MovieTile from '../../src/components/MovieTile';
 
-describe('MovieList', () => {
+describe('MovieTile', () => {
   let component;
 
   beforeEach(() => {
     const state = {
+      general: {
+        markerObjects: {
+          '59cb48ab0885a160059e5c51': {
+            key: '59cb48ab0885a160059e5c51',
+            props: {
+              position: { lat: 37.8233541, lng: -122.370153102287 }
+            }
+          },
+          '59cb48ab0885a160059e5c5d': {
+            key: '59cb48ab0885a160059e5c5d',
+            props: {
+              position: { lat: 37.7882307, lng: -122.4537871 }
+            }
+          },
+          '59cb48ab0885a160059e5c4b': {
+            key: '59cb48ab0885a160059e5c4b',
+            props: {
+              position: { lat: 37.7948572, lng: -122.394900907517 }
+            }
+          },
+          '59cb48ab0885a160059e5c5b': {
+            key: '59cb48ab0885a160059e5c5b',
+            props: {
+              position: { lat: 37.79000325, lng: -122.399925612004 }
+            }
+          },
+          '59cb48ab0885a160059e5c71': {
+            key: '59cb48ab0885a160059e5c71',
+            props: {
+              position: { lat: 37.7643796, lng: -122.437885069835 }
+            }
+          }
+        }
+      },
       movies: {
         list: {
           '59cb48ab0885a160059e5c50': {
@@ -25,27 +59,6 @@ describe('MovieList', () => {
                 lng: '-122.4537871',
                 _movie: '59cb48ab0885a160059e5c50',
                 _id: '59cb48ab0885a160059e5c5d'
-              },
-              {
-                address: 'Palace of Fine Arts',
-                lat: '37.80291855',
-                lng: '-122.448402864353',
-                _movie: '59cb48ab0885a160059e5c50',
-                _id: '59cb48ab0885a160059e5c5e'
-              },
-              {
-                address: 'Bernal Heights Park',
-                lat: '37.74343975',
-                lng: '-122.413470504348',
-                _movie: '59cb48ab0885a160059e5c50',
-                _id: '59cb48ab0885a160059e5c66'
-              },
-              {
-                address: '679 Madrid St',
-                lat: '37.7216254',
-                lng: '-122.4328201',
-                _movie: '59cb48ab0885a160059e5c50',
-                _id: '59cb48ab0885a160059e5c7c'
               }
             ],
             __v: 5
@@ -74,13 +87,6 @@ describe('MovieList', () => {
                 lng: '-122.437885069835',
                 _movie: '59cb48ab0885a160059e5c48',
                 _id: '59cb48ab0885a160059e5c71'
-              },
-              {
-                address: 'City Hall',
-                lat: '5.9652594',
-                lng: '-75.1017103',
-                _movie: '59cb48ab0885a160059e5c48',
-                _id: '59cb48ab0885a160059e5c7b'
               }
             ],
             __v: 4
@@ -88,14 +94,35 @@ describe('MovieList', () => {
         }
       }
     };
-    component = renderComponent(MovieList, null, state);
+    const movie = {
+      movie: {
+        _id: '59cb48ab0885a160059e5c50',
+        title: 'Americana',
+        locations: [
+          '59cb48ab0885a160059e5c51',
+          '59cb48ab0885a160059e5c5d',
+          '59cb48ab0885a160059e5c5e',
+          '59cb48ab0885a160059e5c66',
+          '59cb48ab0885a160059e5c7c'
+        ],
+        __v: 5
+      }
+    };
+
+    component = renderComponent(MovieTile, movie, state);
   });
 
   it('renders something', () => {
     expect(component).to.exist;
   });
 
-  it('renders each movie item', () => {
-    expect(component.find('.movie-item').length).to.equal(2);
+  describe('hover over movie', () => {
+    beforeEach(() => {
+      component.simulate('mouseEnter');
+    });
+
+    it('changes background-color', () => {
+      expect(component.to.have.css('background-color', '#cce5a6'));
+    });
   });
 });

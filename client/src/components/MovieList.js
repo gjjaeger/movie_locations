@@ -9,7 +9,7 @@ class MovieList extends Component {
     const movies = this.props.movieList;
 
     return _.map(movies, movie => {
-      return <MovieTile hoveredMovie={movie} key={movie._id} />;
+      return <MovieTile movie={movie} key={movie._id} />;
     });
   }
   render() {

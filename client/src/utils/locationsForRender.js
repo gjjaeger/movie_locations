@@ -10,7 +10,7 @@ export default (
 ) => {
   const otherLocations = _.chain(selectedMovie.locations)
     .filter(location => {
-      return location != selectedLocation._id;
+      return location !== selectedLocation._id;
     })
     .map(location_id => {
       return locations[location_id];

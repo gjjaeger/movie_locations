@@ -18,3 +18,4 @@ export const SET_TEMPORARY_BOUNDS = 'set_temporary_bounds';
 export const CLEAR_TEMPORARY_BOUNDS = 'set_temporary_bounds';
 export const SET_MAP_OBJECT = 'set_map_object';
 export const SET_MAP_ZOOM = 'set_map_zoom';
+export const FETCH_USER = 'fetch_user';

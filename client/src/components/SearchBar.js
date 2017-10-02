@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
-const google = window.google;
-
 class Landing extends Component {
   //set map center to address location
   setCenter(address) {

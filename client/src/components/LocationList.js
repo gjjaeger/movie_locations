@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import React, { Component } from 'react';
 
-const google = window.google;
-
 class LocationList extends Component {
   renderContent() {
     const locations = this.props.locations;
