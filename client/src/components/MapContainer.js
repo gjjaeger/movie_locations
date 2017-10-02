@@ -6,7 +6,6 @@ import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClust
 
 import React, { Component } from 'react';
 import calculateBoundLimit from '../utils/calculateBoundLimit';
-
 const google = window.google;
 
 //Load Async Map

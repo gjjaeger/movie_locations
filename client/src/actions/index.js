@@ -1,4 +1,6 @@
-'use strict';
+import 'babel-polyfill';
+import _ from 'lodash';
+
 import axios from 'axios';
 import {
   SET_MOVIES,
@@ -22,7 +24,7 @@ import {
   SET_MAP_OBJECT
 } from './types';
 import { normalize, schema, Schema, arrayOf } from 'normalizr';
-import _ from 'lodash';
+
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
@@ -77,7 +79,6 @@ export const setCenter = ({ address }) => async dispatch => {
   geocodeByAddress(address)
     .then(results => getLatLng(results[0]))
     .then(latLng => {
-      debugger;
       dispatch({
         type: SET_CENTER,
         payload: latLng
