@@ -10,6 +10,7 @@ const Landing = () => {
   return (
     <div className="landing-container">
       <MapContainer />
+      <SearchBar />
       <ErrorBar />
       <MovieList />
       <LocationList />

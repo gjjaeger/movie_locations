@@ -1,19 +1,14 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import {
-  GoogleMap as GMap,
-  withGoogleMap,
-  withScriptjs,
-  Marker
-} from 'react-google-maps';
+import { GoogleMap as GMap, withGoogleMap, Marker } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 
 import React, { Component } from 'react';
 import calculateBoundLimit from '../utils/calculateBoundLimit';
 
 //Load Async Map
-const AsyncMap = _.flowRight(withScriptjs, withGoogleMap)(props => (
+const AsyncMap = _.flow(withGoogleMap)(props => (
   <GMap
     defaultCenter={props.defaultCenter}
     defaultZoom={props.defaultZoom}
