@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import './index.css';
 import 'materialize-css/dist/css/materialize.min.css';
 import React from 'react';
